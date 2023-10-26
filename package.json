@@ -1,0 +1,31 @@
+{
+  "name": "hra",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint src --config=.eslintrc --ext=js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vahmurka0204/hra.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vahmurka0204/hra/issues"
+  },
+  "homepage": "https://github.com/Vahmurka0204/hra#readme",
+  "engines": {
+    "node": ">=16"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.23.0",
+    "@babel/core": "7.23.0",
+    "@babel/eslint-parser": "7.22.15",
+    "@babel/eslint-plugin": "7.22.10",
+    "eslint": "8.50.0",
+    "eslint-plugin-import": "2.28.1"
+  }
+}
