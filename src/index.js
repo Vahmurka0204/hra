@@ -46,21 +46,23 @@ window.addEventListener("load", () => {
     const $modal = document.getElementById("modal");
 
     function DrawTable(quiz) {
+        $tableBody.innerHTML = "";
         for (let i = 0; i < quiz.themes.length; i++) {
-            const element = quiz.themes[i];
+            const theme = quiz.themes[i];
             const $tr = document.createElement("tr");
             const $td = document.createElement("td");
-            $td.innerHTML = element.name;
+            $td.innerHTML = theme.name;
             $tr.append($td);
 
-            for (let j = 0; j < element.questions.length; j++) {
+            for (let j = 0; j < theme.questions.length; j++) {
                 const $td = document.createElement("td");
                 $td.className = "question";
-                $td.innerHTML = element.questions[j].cost;
+                $td.innerHTML = theme.questions[j].cost;
                 $td.addEventListener("click", () => {
-                    document.getElementById("question").innerText = element.questions[j].text;
+                    document.getElementById("theme-cost").innerText = `${theme.name}:${theme.questions[j].cost}`;
+                    document.getElementById("question").innerText = theme.questions[j].text;
 
-                    element.questions[j].answers.forEach((value, index) => {
+                    theme.questions[j].answers.forEach((value, index) => {
                         document.getElementById(`answer-${index}`).innerText = value.text;
                     });
 
@@ -77,8 +79,13 @@ window.addEventListener("load", () => {
             }
 
             $tableBody.append($tr);
-
         }
+    }
+
+    const storedQuiz = localStorage.getItem("quiz");
+
+    if (storedQuiz) {
+        DrawTable(JSON.parse(storedQuiz));
     }
 
     $load.addEventListener("click", async () => {
@@ -92,7 +99,8 @@ window.addEventListener("load", () => {
 
         const file = await fileHandler.getFile();
         const content = await file.text();
-        $tableBody.value = content;
+        localStorage.setItem("quiz", content);
+        DrawTable(JSON.parse(content));
     });
 
     $save.addEventListener("click", async () => {
@@ -104,7 +112,7 @@ window.addEventListener("load", () => {
             excludeAcceptAllOption: false
         });
 
-        const content = $tableBody.value;
+        const content = localStorage.getItem("quiz");
         const file = await fileHandler.createWritable();
         await file.write(content);
         await file.close();
@@ -137,6 +145,8 @@ window.addEventListener("load", () => {
             }
             quiz.themes[i] = theme;
         }
+
+        localStorage.setItem("quiz", JSON.stringify(quiz));
 
         DrawTable(quiz);
     });
