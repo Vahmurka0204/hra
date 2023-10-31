@@ -52,6 +52,14 @@ window.addEventListener("load", () => {
             const $tr = document.createElement("tr");
             const $td = document.createElement("td");
             $td.innerHTML = theme.name;
+            $td.addEventListener("click", () => {
+                const newName = prompt("Nazev temy:");
+                if (newName.length > 0) {
+                    theme.name = newName;
+                    $td.innerHTML = newName;
+                    localStorage.setItem("quiz", JSON.stringify(quiz));
+                }
+            });
             $tr.append($td);
 
             for (let j = 0; j < theme.questions.length; j++) {
@@ -60,10 +68,20 @@ window.addEventListener("load", () => {
                 $td.innerHTML = theme.questions[j].cost;
                 $td.addEventListener("click", () => {
                     document.getElementById("theme-cost").innerText = `${theme.name}:${theme.questions[j].cost}`;
-                    document.getElementById("question").innerText = theme.questions[j].text;
+                    const question = document.getElementById("question");
+                    question.value = theme.questions[j].text;
+                    question.addEventListener("change", (e) => {
+                        theme.questions[j].text = e.target.value;
+                        localStorage.setItem("quiz", JSON.stringify(quiz));
+                    });
 
-                    theme.questions[j].answers.forEach((value, index) => {
-                        document.getElementById(`answer-${index}`).innerText = value.text;
+                    theme.questions[j].answers.forEach((answer, index) => {
+                        const $input = document.getElementById(`answer-${index}`);
+                        $input.value = answer.text;
+                        $input.addEventListener("change", (e) => {
+                            answer.text = e.target.value;
+                            localStorage.setItem("quiz", JSON.stringify(quiz));
+                        });
                     });
 
                     $modal.classList.add("open");
