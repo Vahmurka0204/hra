@@ -82,6 +82,16 @@ window.addEventListener("load", () => {
                             answer.text = e.target.value;
                             localStorage.setItem("quiz", JSON.stringify(quiz));
                         });
+
+                        const $radio = document.getElementById(`rb${index}`);
+                        $radio.checked = answer.isItRight;
+                        $radio.addEventListener("change", () => {
+                            theme.questions[j].answers.forEach((ans) => {
+                                ans.isItRight = false;
+                            });
+                            answer.isItRight = true;
+                            localStorage.setItem("quiz", JSON.stringify(quiz));
+                        });
                     });
 
                     $modal.classList.add("open");
